@@ -1,0 +1,91 @@
+{
+  "name": "image-collector-pet",
+  "version": "0.3.22",
+  "private": true,
+  "description": "一款本地优先的图片灵感收集与整理桌面应用。",
+  "type": "module",
+  "main": "dist-electron/main/index.js",
+  "scripts": {
+    "dev": "concurrently -k \"vite\" \"tsc -p tsconfig.electron.json --watch\" \"esbuild src/preload/index.ts --bundle --platform=node --format=cjs --external:electron --outfile=dist-electron/preload/index.cjs --watch\" \"wait-on tcp:5173 dist-electron/main/index.js dist-electron/preload/index.cjs && electron .\"",
+    "build": "npm run typecheck && vite build && tsc -p tsconfig.electron.json && npm run build:preload",
+    "build:preload": "esbuild src/preload/index.ts --bundle --platform=node --format=cjs --external:electron --outfile=dist-electron/preload/index.cjs",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.electron.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:stage0": "vitest run tests/stage0",
+    "test:stage1": "vitest run tests/stage1",
+    "test:stage2": "vitest run tests/stage2",
+    "test:stage3": "vitest run tests/stage3",
+    "test:stage4": "vitest run tests/stage4",
+    "test:stage5": "vitest run tests/stage5",
+    "test:stage6": "vitest run tests/stage6",
+    "test:stage7": "vitest run tests/stage7",
+    "test:stage8": "vitest run tests/stage8",
+    "test:stage9": "vitest run tests/stage9",
+    "test:stage10": "vitest run tests/stage10",
+    "test:stage11": "vitest run tests/stage11",
+    "package": "npm run build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "@google/genai": "latest",
+    "@gsap/react": "^2.1.2",
+    "@phosphor-icons/react": "^2.1.10",
+    "archiver": "^7.0.1",
+    "better-sqlite3": "latest",
+    "drizzle-orm": "latest",
+    "express": "latest",
+    "gsap": "^3.15.0",
+    "motion": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "sharp": "latest",
+    "yauzl": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@types/archiver": "latest",
+    "@types/better-sqlite3": "latest",
+    "@types/express": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/yauzl": "latest",
+    "@vitejs/plugin-react": "latest",
+    "concurrently": "latest",
+    "electron": "latest",
+    "electron-builder": "latest",
+    "esbuild": "latest",
+    "jsdom": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vitest": "latest",
+    "wait-on": "latest"
+  },
+  "build": {
+    "appId": "local.imagecollector.pet",
+    "productName": "拾图",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "node_modules/better-sqlite3/**",
+      "node_modules/sharp/**"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/app-icon.ico"
+    },
+    "nsis": {
+      "shortcutName": "拾图",
+      "uninstallDisplayName": "拾图",
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}
